@@ -1247,7 +1247,17 @@ public class CameraLauncher extends CordovaPlugin implements MediaScannerConnect
                 id--;
             }
             Uri uri = Uri.parse(contentStore + "/" + id);
-            this.cordova.getActivity().getContentResolver().delete(uri, null, null);
+            
+            //FIX ERROR Al borrar duplicado
+            try {
+
+              this.cordova.getActivity().getContentResolver().delete(uri, null, null);
+            }
+            catch (Exception e)
+            {
+              LOG.e("CUSTOM", "----Can't delete picture from disck : " + e.getMessage(), e);
+            }
+               
             cursor.close();
         }
     }
